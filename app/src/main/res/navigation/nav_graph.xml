@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/pokeSearchFragment">
+
+    <fragment
+        android:id="@+id/pokeSearchFragment"
+        android:name="com.example.ppiflutter.pokedexprojectventurus.ui.screen.PokeSearchFragment"
+        android:label="PokeSearchFragment"
+        tools:layout="@layout/pokemon_search"
+        >
+        <action
+            android:id="@+id/action_listFragment_to_detailFragment"
+            app:destination="@id/pokeDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pokeDetailsFragment"
+        android:name="com.example.ppiflutter.pokedexprojectventurus.ui.screen.PokeProfileFragment"
+        android:label="PokeDetailsFragment"
+        tools:layout="@layout/pokemon_profile">
+
+        <argument
+            android:name="pokemonModel"
+            app:argType="com.example.ppiflutter.pokedexprojectventurus.model.PokemonModel" />
+    </fragment>
+</navigation>

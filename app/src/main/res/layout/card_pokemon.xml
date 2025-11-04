@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginRight="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <ImageView
+            android:id="@+id/imagePokeCard"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="8dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/layoutIdentity"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toTopOf="@id/layoutTypes">
+
+                <TextView
+                    android:id="@+id/poke_number_card_text"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="5dp"
+                    android:textSize="12sp"
+                    android:gravity="center_vertical"
+                    tools:text="N#1000"
+                    android:layout_marginEnd="10dp"/>
+
+                <TextView
+                    android:id="@+id/textNamePokeCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:textSize="20sp"
+                    android:gravity="center_vertical"
+                    tools:text="Bulbasaur"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutTypes"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/layoutIdentity"
+                >
+                <TextView
+                    android:id="@+id/textType1PokeCard"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:textAlignment="center"
+                    android:gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:background="#9bcc50"
+                    tools:text="Grass"
+                    android:textSize="12sp"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/textType2PokeCard"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:textAlignment="center"
+                    android:gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:background="#b97fc9"
+                    tools:text="Poison"
+                    android:textSize="12sp"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintStart_toEndOf="@id/textType1PokeCard"
+                    />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
