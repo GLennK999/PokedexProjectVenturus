@@ -46,15 +46,15 @@ class PokemonCardAdapter(private var pokemons: List<PokemonModel>,
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         val pokemon = pokemons[position]
+        var typeIcon:TypeIconBinding
+
         holder.binding.run{
-            //imagePokeCard.setImageResource(pokemon.imageUrl)
             Glide.with(root.context).load(pokemon.imageUrl).into(imagePokeCard)
             pokeNumberCardText.text = pokemon.formattedDexNumber
             pokeNameCardText.text = pokemon.name
 
-
             for (i in pokemon.types){
-                val typeIcon = TypeIconBinding.inflate(LayoutInflater.from(root.context))
+                typeIcon = TypeIconBinding.inflate(LayoutInflater.from(root.context)) // Provavelmente ele ser criado num for tá dando problema
                 typeIcon.pokeTypeIcon.text = i
                 typeIcon.pokeTypeIcon.setBackgroundColor(colors[i]?.toColorInt() ?: "#FFFFFF".toColorInt())
                 pokeCardLayoutTypes.addView(typeIcon.root)

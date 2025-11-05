@@ -11,7 +11,7 @@
         android:layout_marginTop="120dp"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/poke_name_profile_text"
+            android:id="@+id/pokeNameProfileText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pokemon Name"
@@ -21,7 +21,7 @@
             >
         </TextView>
         <TextView
-            android:id="@+id/poke_number_profile_text"
+            android:id="@+id/pokeNumberProfileText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="#1026"
@@ -70,7 +70,7 @@
             android:layout_marginTop="15dp"
             >
             <TextView
-                android:id="@+id/poke_height_profile_text"
+                android:id="@+id/pokeHeightProfileText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Height: 0.7m"
@@ -78,7 +78,7 @@
                 android:layout_marginStart="20dp"
                 />
             <TextView
-                android:id="@+id/poke_weight_profile_text"
+                android:id="@+id/pokeWeightProfileText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Weight: 0.7kg"
@@ -86,7 +86,7 @@
                 />
         </LinearLayout>
         <TextView
-            android:id="@+id/poke_category_"
+            android:id="@+id/pokeAbilitiesText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Abilities: ???? | ????"
