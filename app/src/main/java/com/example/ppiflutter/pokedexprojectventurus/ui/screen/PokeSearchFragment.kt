@@ -39,7 +39,6 @@ class PokeSearchFragment: Fragment() {
             { pokemon ->
                 // Implementar navegação para o perfil do Pokémon
                 findNavController().navigate(
-                    // Substitua pelo seu action ID
                     R.id.action_pokeSearchFragment_to_pokeProfileFragment, //substituir pelo binding
                     Bundle().apply {
                         putParcelable("pokemon", pokemon)
