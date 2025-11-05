@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.ppiflutter.pokedexprojectventurus.ui.PokemonCardAdapter
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.ppiflutter.pokedexprojectventurus.databinding.PokemonSearchBinding
 import com.example.ppiflutter.pokedexprojectventurus.model.pokemonList
 
 class PokeSearchFragment: Fragment() {
-    // tive que commitar tudo pq tava travando pra gerar a build
     private var _binding: PokemonSearchBinding?= null
     private val binding get() = _binding!!
 
@@ -28,8 +28,8 @@ class PokeSearchFragment: Fragment() {
         val pokemonCardAdapter = PokemonCardAdapter(
             pokemonList,
             {
-            //implementar pra ir pro PokeProfile
-        })
+                //implementar pra ir pro PokeProfile
+            })
 
     }
 
