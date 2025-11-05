@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/pokeSearchFragment">
-
+    app:startDestination="@id/pokeSearchFragment"
+    >
     <fragment
         android:id="@+id/pokeSearchFragment"
         android:name="com.example.ppiflutter.pokedexprojectventurus.ui.screen.PokeSearchFragment"
@@ -13,15 +13,14 @@
         >
         <action
             android:id="@+id/action_listFragment_to_detailFragment"
-            app:destination="@id/pokeDetailFragment" />
+            app:destination="@id/pokeProfileFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/pokeDetailsFragment"
+        android:id="@+id/pokeProfileFragment"
         android:name="com.example.ppiflutter.pokedexprojectventurus.ui.screen.PokeProfileFragment"
         android:label="PokeDetailsFragment"
         tools:layout="@layout/pokemon_profile">
-
         <argument
             android:name="pokemonModel"
             app:argType="com.example.ppiflutter.pokedexprojectventurus.model.PokemonModel" />

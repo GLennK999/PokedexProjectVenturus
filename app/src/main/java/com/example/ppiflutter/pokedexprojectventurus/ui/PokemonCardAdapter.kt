@@ -1,37 +1,53 @@
 package com.example.ppiflutter.pokedexprojectventurus.ui
 
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ppiflutter.pokedexprojectventurus.R
+import com.example.ppiflutter.pokedexprojectventurus.databinding.CardPokemonBinding
+import com.example.ppiflutter.pokedexprojectventurus.databinding.TypeIconBinding
 import com.example.ppiflutter.pokedexprojectventurus.model.PokemonModel
 
 class PokemonCardAdapter(
     private var pokemons: List<PokemonModel>,
-    private val onItemClick: (PokemonModel) -> Unit)
+    private val onItemClicked: (PokemonModel) -> Unit)
     : RecyclerView.Adapter<PokemonCardAdapter.PokemonViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
-        TODO("Not yet implemented")
+        val binding = CardPokemonBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false)
+
+        return PokemonViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val pokemon = pokemons[position]
+        holder.binding.run{
+            //imagePokeCard.setImageResource(pokemon.imageUrl)
+            pokeNumberCardText.text = pokemon.formattedDexNumber
+            pokeNameCardText.text = pokemon.name
+
+            val colors = mapOf<String,String>(
+                "grass" to "#FFFFFF",
+                "normal" to "#FFFFFF"
+            )
+
+            for (i in pokemon.types){
+                val typeIcon = TypeIconBinding.inflate(LayoutInflater.from(root.context))
+                typeIcon.pokeTypeIcon.text = i
+                typeIcon.pokeTypeIcon.setBackgroundColor(colors[i]?.toColorInt() ?: "#FFFFFF".toColorInt())
+                pokeCardLayoutTypes.addView(typeIcon.root)
+            }
+
+        }
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return pokemons.size
     }
-    inner class PokemonViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        /*
-        val imagePokeCard= itemView.findViewById<ImageView>(R.id.imagePokeCard)
-        val textNumberPokeCard = itemView.findViewById<ImageView>(R.id.textNumberPokeCard)
-        val textNamePokeCard = itemView.findViewById<ImageView>(R.id.textNamePokeCard)
-        val textType1PokeCard = itemView.findViewById<ImageView>(R.id.textType1PokeCard)
-        val textType2PokeCard = itemView.findViewById<ImageView>(R.id.textType2PokeCard)
-    */
-        //.text = "0001"
+    inner class PokemonViewHolder(val binding: CardPokemonBinding): RecyclerView.ViewHolder(binding.root){
 
     }
 

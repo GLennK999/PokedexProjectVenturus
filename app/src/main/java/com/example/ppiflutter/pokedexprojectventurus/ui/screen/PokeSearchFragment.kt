@@ -6,21 +6,39 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.ppiflutter.pokedexprojectventurus.ui.PokemonCardAdapter
 import androidx.fragment.app.Fragment
+import com.example.ppiflutter.pokedexprojectventurus.databinding.PokemonSearchBinding
+import com.example.ppiflutter.pokedexprojectventurus.model.pokemonList
 
 class PokeSearchFragment: Fragment() {
     // tive que commitar tudo pq tava travando pra gerar a build
-    /*
-    override fun bindView(
-            inflater: LayoutInflater,
-            container: ViewGroup?) = FragmentListBinding.inflate(inflater, container, false)
-    // De onde vem o FragmentListBinding
+    private var _binding: PokemonSearchBinding?= null
+    private val binding get() = _binding!!
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = PokemonSearchBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val pokemonCardAdapter = PokemonCardAdapter(
+            pokemonList,
+            {
+            //implementar pra ir pro PokeProfile
+        })
+
+    }
+
+    /*
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
 
         //val pokeCardAdapter = PokemonCardAdapter(emptyList())
         //configureList()
-        configureFabs()
         //loadPokeCards()
         //observePokeCards()
     }
@@ -35,23 +53,7 @@ class PokeSearchFragment: Fragment() {
         }
          */
     }
-    private fun configureFabs(){
-        /*
-        Adaptar val action = actionListFragmenToDetailsPokemon
 
-         binding.fabAddNewTask.setOnClickListener {
-            val action =
-                ListFragmentDirections.actionListFragmentToDetailFragment(
-                    taskModel = TaskModel()
-                )
-            findNavController().navigate(action)
-        }
          */
-
-
-    }
-*/
-
-
 
 }

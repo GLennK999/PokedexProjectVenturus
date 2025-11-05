@@ -22,6 +22,7 @@
             android:id="@+id/imagePokeCard"
             android:layout_width="80dp"
             android:layout_height="100dp"
+            android:src="@drawable/app_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -39,10 +40,10 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_marginBottom="5dp"
-                app:layout_constraintBottom_toTopOf="@id/layoutTypes">
+                app:layout_constraintBottom_toTopOf="@id/pokeCardLayoutTypes">
 
                 <TextView
-                    android:id="@+id/poke_number_card_text"
+                    android:id="@+id/pokeNumberCardText"
                     android:layout_width="50dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="5dp"
@@ -52,7 +53,7 @@
                     android:layout_marginEnd="10dp"/>
 
                 <TextView
-                    android:id="@+id/textNamePokeCard"
+                    android:id="@+id/pokeNameCardText"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:textSize="20sp"
@@ -62,40 +63,17 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layoutTypes"
+                android:id="@+id/pokeCardLayoutTypes"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1"
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
                 app:layout_constraintTop_toBottomOf="@id/layoutIdentity"
-                >
-                <TextView
-                    android:id="@+id/textType1PokeCard"
-                    android:layout_width="50dp"
-                    android:layout_height="20dp"
-                    android:textAlignment="center"
-                    android:gravity="center_horizontal"
-                    android:layout_marginStart="10dp"
-                    android:background="#9bcc50"
-                    tools:text="Grass"
-                    android:textSize="12sp"
-                    android:textColor="#FFFFFF" />
+                tools:listitem="@layout/type_icon"
+                />
 
-                <TextView
-                    android:id="@+id/textType2PokeCard"
-                    android:layout_width="50dp"
-                    android:layout_height="20dp"
-                    android:textAlignment="center"
-                    android:gravity="center_horizontal"
-                    android:layout_marginStart="10dp"
-                    android:background="#b97fc9"
-                    tools:text="Poison"
-                    android:textSize="12sp"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintStart_toEndOf="@id/textType1PokeCard"
-                    />
-            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
