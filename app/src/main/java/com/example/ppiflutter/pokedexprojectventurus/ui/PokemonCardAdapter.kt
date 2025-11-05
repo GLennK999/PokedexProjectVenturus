@@ -4,14 +4,36 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.ppiflutter.pokedexprojectventurus.databinding.CardPokemonBinding
 import com.example.ppiflutter.pokedexprojectventurus.databinding.TypeIconBinding
 import com.example.ppiflutter.pokedexprojectventurus.model.PokemonModel
 
-class PokemonCardAdapter(
-    private var pokemons: List<PokemonModel>,
+class PokemonCardAdapter(private var pokemons: List<PokemonModel>,
     private val onItemClicked: (PokemonModel) -> Unit)
-    : RecyclerView.Adapter<PokemonCardAdapter.PokemonViewHolder>() {
+    :RecyclerView.Adapter<PokemonCardAdapter.PokemonViewHolder>() {
+
+    val colors = mapOf<String,String>(
+        "grass" to "#78C850",
+        "fire" to "#F08030",
+        "water" to "#6890F0",
+        "electric" to "#F8D030",
+        "psychic" to "#F85888",
+        "ice" to "#98D8D8",
+        "dragon" to "#7038F8",
+        "dark" to "#705848",
+        "fairy" to "#EE99AC",
+        "normal" to "#A8A878",
+        "fighting" to "#C03028",
+        "poison" to "#A040A0",
+        "ground" to "#E0C068",
+        "flying" to "#A890F0",
+        "bug" to "#A8B820",
+        "rock" to "#B8A038",
+        "ghost" to "#705898",
+        "steel" to "#B8B8D0"
+    )
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         val binding = CardPokemonBinding.inflate(
@@ -26,29 +48,10 @@ class PokemonCardAdapter(
         val pokemon = pokemons[position]
         holder.binding.run{
             //imagePokeCard.setImageResource(pokemon.imageUrl)
+            Glide.with(root.context).load(pokemon.imageUrl).into(imagePokeCard)
             pokeNumberCardText.text = pokemon.formattedDexNumber
             pokeNameCardText.text = pokemon.name
 
-            val colors = mapOf<String,String>(
-                "grass" to "#78C850",
-                "fire" to "#F08030",
-                "water" to "#6890F0",
-                "electric" to "#F8D030",
-                "psychic" to "#F85888",
-                "ice" to "#98D8D8",
-                "dragon" to "#7038F8",
-                "dark" to "#705848",
-                "fairy" to "#EE99AC",
-                "normal" to "#A8A878",
-                "fighting" to "#C03028",
-                "poison" to "#A040A0",
-                "ground" to "#E0C068",
-                "flying" to "#A890F0",
-                "bug" to "#A8B820",
-                "rock" to "#B8A038",
-                "ghost" to "#705898",
-                "steel" to "#B8B8D0"
-            )
 
             for (i in pokemon.types){
                 val typeIcon = TypeIconBinding.inflate(LayoutInflater.from(root.context))
@@ -63,6 +66,12 @@ class PokemonCardAdapter(
     override fun getItemCount(): Int {
         return pokemons.size
     }
+
+    fun updatePokemonList(newPokemons: List<PokemonModel>) {
+        pokemons = newPokemons
+        notifyDataSetChanged()
+    }
+
     inner class PokemonViewHolder(val binding: CardPokemonBinding): RecyclerView.ViewHolder(binding.root){
 
     }

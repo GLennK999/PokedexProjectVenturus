@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import com.example.ppiflutter.pokedexprojectventurus.ui.PokemonCardAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ppiflutter.pokedexprojectventurus.R
 import com.example.ppiflutter.pokedexprojectventurus.databinding.PokemonSearchBinding
 import com.example.ppiflutter.pokedexprojectventurus.model.pokemonList
 
@@ -25,12 +27,37 @@ class PokeSearchFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        configureRecyclerView()
+
+
+    }
+
+    private fun configureRecyclerView() {
         val pokemonCardAdapter = PokemonCardAdapter(
             pokemonList,
-            {
-                //implementar pra ir pro PokeProfile
+            { pokemon ->
+                // Implementar navegação para o perfil do Pokémon
+                findNavController().navigate(
+                    // Substitua pelo seu action ID
+                    R.id.action_pokeSearchFragment_to_pokeProfileFragment, //substituir pelo binding
+                    Bundle().apply {
+                        putParcelable("pokemon", pokemon)
+
+                        //implementar pra ir pro PokeProfile
+                    })
             })
 
+        binding.pokeCardsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = pokemonCardAdapter
+            setHasFixedSize(true)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     /*
