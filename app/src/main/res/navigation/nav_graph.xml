@@ -3,8 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/pokeSearchFragment"
+    app:startDestination="@id/splashScreenFragment"
     >
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.example.ppiflutter.pokedexprojectventurus.ui.screen.SplashScreen"
+        android:label="SplashScreenFragment"
+        tools:layout="@layout/splash_screen">
+
+        <action
+            android:id="@+id/navigate_splashScreenFragment_to_pokeSearchFragment"
+            app:destination="@id/pokeSearchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/pokeSearchFragment"
         android:name="com.example.ppiflutter.pokedexprojectventurus.ui.screen.PokeSearchFragment"

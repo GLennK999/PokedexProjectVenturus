@@ -10,7 +10,7 @@ import com.example.ppiflutter.pokedexprojectventurus.databinding.TypeIconBinding
 import com.example.ppiflutter.pokedexprojectventurus.model.PokemonModel
 
 class PokemonCardAdapter(private var pokemons: List<PokemonModel>,
-    private val onItemClicked: (PokemonModel) -> Unit)
+    private val onItemClicked: (PokemonModel) -> Unit) //como posso usar esse onItemClicked para abrir a ProfileScreen?
     :RecyclerView.Adapter<PokemonCardAdapter.PokemonViewHolder>() {
 
     val colors = mapOf<String,String>(
@@ -33,6 +33,8 @@ class PokemonCardAdapter(private var pokemons: List<PokemonModel>,
         "ghost" to "#705898",
         "steel" to "#B8B8D0"
     )
+
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {

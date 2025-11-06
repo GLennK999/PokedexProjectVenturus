@@ -49,7 +49,6 @@ class PokeProfileFragment(val pokemon : PokemonModel): Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        //binding.toolbarTask.menu.clear()
         _binding = null
     }
 
