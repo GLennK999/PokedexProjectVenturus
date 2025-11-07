@@ -1,5 +1,6 @@
 package com.example.ppiflutter.pokedexprojectventurus.ui.screen;
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +11,19 @@ import com.bumptech.glide.Glide
 import com.example.ppiflutter.pokedexprojectventurus.databinding.PokemonProfileBinding
 import com.example.ppiflutter.pokedexprojectventurus.model.PokemonModel
 
-class PokeProfileFragment(val pokemon : PokemonModel): Fragment() {
+class PokeProfileFragment(): Fragment() {
     private val args: PokeProfileFragmentArgs by navArgs()
     private var _binding: PokemonProfileBinding? = null
     private val binding get() = _binding!!
+
+    fun getPokemonFromArguments(): PokemonModel?{
+        return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            arguments?.getParcelable("pokemonModel",PokemonModel::class.java)
+        }else{
+            @Suppress("DEPRECATION")
+            arguments?.getParcelable("pokemonModel")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,22 +38,24 @@ class PokeProfileFragment(val pokemon : PokemonModel): Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var abilitiestxt = "Abilities: "
+        val pokemon = getPokemonFromArguments()
+        val abilitiesTxt = StringBuilder("Abilities: ")
 
-        Glide.with(binding.root.context).load(pokemon.imageUrl).into(binding.pokeProfileImage)
-        binding.pokeNameProfileText.text = pokemon.name
-        binding.pokeNumberProfileText.text = pokemon.formattedDexNumber
-        binding.pokeHeightProfileText.text = pokemon.height.toString()
-        binding.pokeWeightProfileText.text = pokemon.weight.toString()
+        pokemon?.let { pocketMonster ->
+            Glide.with(binding.root.context).load(pocketMonster.imageUrl).into(binding.pokeProfileImage)
+            binding.pokeNameProfileText.text = pocketMonster.name
+            binding.pokeNumberProfileText.text = pocketMonster.formattedDexNumber
+            binding.pokeHeightProfileText.text = pocketMonster.height.toString()
+            binding.pokeWeightProfileText.text = pocketMonster.weight.toString()
 
-        for(i in pokemon.abilities){
-            abilitiestxt += " "+i+" "
+            for(i in pocketMonster.abilities){
+                abilitiesTxt.append(" $i ")
+            }
+
+            binding.pokeAbilitiesText.text = abilitiesTxt.toString()
+
         }
 
-        binding.pokeAbilitiesText.text = abilitiestxt
-
-        //val pokemonModel = args.pokemonModel
-        // Use o pokemonModel
     }
 
 

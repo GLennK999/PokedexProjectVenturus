@@ -22,7 +22,7 @@
         tools:layout="@layout/pokemon_search"
         >
         <action
-            android:id="@+id/action_pokeSearchFragment_to_pokeProfileFragment"
+            android:id="@+id/actionPokeSearchFragmentToPokeProfileFragment"
             app:destination="@id/pokeProfileFragment" />
     </fragment>
 

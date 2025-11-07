@@ -7,21 +7,16 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import com.example.ppiflutter.pokedexprojectventurus.ui.PokemonCardAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.util.query
 import com.example.ppiflutter.pokedexprojectventurus.R
 import com.example.ppiflutter.pokedexprojectventurus.databinding.PokemonSearchBinding
 import com.example.ppiflutter.pokedexprojectventurus.model.PokemonModel
 import com.example.ppiflutter.pokedexprojectventurus.model.pokemonList
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 
 class PokeSearchFragment: Fragment() {
     private var _binding: PokemonSearchBinding?= null
@@ -59,16 +54,10 @@ class PokeSearchFragment: Fragment() {
     }
 
     private fun configureRecyclerView() {
-        val pokemonCardAdapter = PokemonCardAdapter(
+        pokemonCardAdapter = PokemonCardAdapter(
             pokemonList, //filteredPokemonList,
-            { pokemon ->
-                // Implementar navegação para o perfil do Pokémon
-                findNavController().navigate(
-                    R.id.action_pokeSearchFragment_to_pokeProfileFragment, //substituir pelo binding
-                    Bundle().apply {
-                        putParcelable("pokemon", pokemon)
-                        //implementar pra ir pro PokeProfile
-                    })
+            {
+                navigationPokeProfile(it)
             })
 
         binding.pokeCardsRecyclerView.apply {
@@ -76,6 +65,12 @@ class PokeSearchFragment: Fragment() {
             adapter = pokemonCardAdapter
             setHasFixedSize(true)
         }
+    }
+
+    private fun navigationPokeProfile(pokemon: PokemonModel) {
+        findNavController().navigate(
+            PokeSearchFragmentDirections.actionPokeSearchFragmentToPokeProfileFragment(pokemon),
+           )
     }
 
     private fun setupSearchListener(){

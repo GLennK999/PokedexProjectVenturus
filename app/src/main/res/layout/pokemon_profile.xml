@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/pokeProfileFragment"
     android:background="@drawable/wallpaper_rotom_dex">
     <LinearLayout
@@ -32,7 +33,7 @@
         </TextView>
         <ImageView
             android:id="@+id/poke_profile_image"
-            android:background="@drawable/app_icon"
+            tools:background="@drawable/app_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:layout_constraintStart_toEndOf="@+id/poke_number_profile_text"
