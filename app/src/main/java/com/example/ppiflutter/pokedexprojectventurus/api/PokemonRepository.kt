@@ -18,8 +18,8 @@ object PokemonRepository {
         return call.execute().body()
     }
 
-    fun getPokemon(number: Int): PokemonApiResult? {
-        val call = service.getPokemon(number)
+    fun getPokemon(name: String): PokemonApiResult? {
+        val call = service.getPokemon(name)
         return call.execute().body()
     }
 }
