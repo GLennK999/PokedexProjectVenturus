@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import com.example.ppiflutter.pokedexprojectventurus.ui.PokemonCardAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -17,6 +19,7 @@ import com.example.ppiflutter.pokedexprojectventurus.R
 import com.example.ppiflutter.pokedexprojectventurus.databinding.PokemonSearchBinding
 import com.example.ppiflutter.pokedexprojectventurus.model.PokemonModel
 import com.example.ppiflutter.pokedexprojectventurus.model.pokemonList
+import com.example.ppiflutter.pokedexprojectventurus.viewmodel.PokemonViewModel
 
 class PokeSearchFragment: Fragment() {
     private var _binding: PokemonSearchBinding?= null
@@ -24,10 +27,12 @@ class PokeSearchFragment: Fragment() {
 
     private lateinit var pokemonCardAdapter: PokemonCardAdapter
     private val allPokemonList = pokemonList
-    private val filteredPokemonList = mutableListOf<PokemonModel>()
 
     private var currentTypeFilter: String = "Todos"
     private var currentGenerationFilter: String = "Todas"
+
+    val pokemonViewModel = PokemonViewModel()
+
 
 
     private val types = arrayOf("Todos", "normal", "fire", "water", "electric", "grass", "ice",
@@ -48,17 +53,26 @@ class PokeSearchFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //configureSpinners()
+        configureSpinners()
         setupSearchListener()
         configureRecyclerView()
+
     }
 
-    private fun configureRecyclerView() {
+
+    /*
         pokemonCardAdapter = PokemonCardAdapter(
             pokemonList, //filteredPokemonList,
             {
                 navigationPokeProfile(it)
             })
+
+         */
+    private fun configureRecyclerView() {
+        //pokemonViewModel.getCurrentPokemonList()
+        pokemonCardAdapter = PokemonCardAdapter(
+            allPokemonList,
+            {navigationPokeProfile(it)})
 
         binding.pokeCardsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -76,7 +90,7 @@ class PokeSearchFragment: Fragment() {
     private fun setupSearchListener(){
         binding.searchEditText.setOnEditorActionListener{ _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                nameFilterPokemonList()
+                filterPokemonList()
                 hideKeyboard()
                 true
             }  else {
@@ -88,27 +102,11 @@ class PokeSearchFragment: Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                nameFilterPokemonList()
+                filterPokemonList()
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
-    }
-
-
-    private fun nameFilterPokemonList(){
-        val userInput = binding.searchEditText.toString().trim().lowercase()
-
-        filteredPokemonList.clear()
-
-        if(userInput.isEmpty()){
-            filteredPokemonList.addAll(allPokemonList)
-        } else {
-            val filteredList = allPokemonList.filter { pokemon ->
-                pokemon.name.lowercase().contains(userInput)
-            }
-            filteredPokemonList.addAll(filteredList)
-        }
     }
 
     private fun hideKeyboard() {
@@ -117,107 +115,65 @@ class PokeSearchFragment: Fragment() {
     }
 
 
-    /*
+
     private fun configureSpinners(){
-        //Filtro Tipos
-        val typesSpinner = binding.pokeTypeSpinner
-        val typeAdapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,types
-        )
+        //Spinner Tipos
+        val typeAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, types)
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        typesSpinner.adapter = typeAdapter
+        binding.pokeTypeSpinner.adapter = typeAdapter
 
-        //Filtro Gerações
-        val genSpinner = binding.pokeGenSpinner
-        val genAdapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            generations
-        )
-        genAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        genSpinner.adapter = genAdapter
+        //Spinner Gerações
+        val generationAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, generations)
+        generationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.pokeGenSpinner.adapter = generationAdapter
 
-
-        typesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        //Listener Tipos
+        binding.pokeTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 currentTypeFilter = types[position]
-                applyFilters()
+                filterPokemonList()
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?){
-                currentTypeFilter = "Todos"
-                applyFilters()
+            override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
 
-        genSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        //Listener Geração
+        binding.pokeGenSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 currentGenerationFilter = generations[position]
-                applyFilters()
+                filterPokemonList()
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                currentGenerationFilter = "Todas"
-                applyFilters()
+            override fun onNothingSelected(parent: AdapterView<*>) {
             }
+
         }
-    }
 
-    fun applyFilters(){
-        filteredPokemonList.clear()
+    }
+    fun filterPokemonList(){
+        val userInput = binding.searchEditText.text.toString().trim().lowercase()
 
         val filteredList = allPokemonList.filter { pokemon ->
-            val typeMatch = if (currentTypeFilter == "Todos") {
-                true
-            } else {
-                pokemon.types.any { it.equals(currentTypeFilter, ignoreCase = true) }
+            // Filtro por nome
+            val matchesName = userInput.isEmpty() || pokemon.name.lowercase().contains(userInput)
+
+            // Filtro por tipo
+            val matchesType = currentTypeFilter == "Todos" || pokemon.types.any { type ->
+                type.lowercase() == currentTypeFilter.lowercase()
             }
 
-            val generationMatch = if (currentGenerationFilter == "Todas") {
-                true
-            } else {
-                pokemon.generation == currentGenerationFilter.toInt()
-            }
+            // Filtro por geração
+            val matchesGeneration = currentGenerationFilter == "Todas" || pokemon.generation == currentGenerationFilter.toInt()
 
-
-            typeMatch && generationMatch
+            matchesName && matchesType && matchesGeneration
         }
 
-        filteredPokemonList.addAll(filteredList)
-
-        pokemonCardAdapter.notifyDataSetChanged()
-
+        // Atualiza o adapter
+        pokemonCardAdapter.updatePokemonList(filteredList)
     }
-
-     */
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-    /*
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
-        super.onViewCreated(view, savedInstanceState)
-
-        //val pokeCardAdapter = PokemonCardAdapter(emptyList())
-        //configureList()
-        //loadPokeCards()
-        //observePokeCards()
-    }
-
-    private fun configureList(pokeCardAdapter: PokemonCardAdapter){
-        /*
-        Adaptar:
-
-        binding.recyclerTaskList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = taskAdapter
-        }
-         */
-    }
-
-         */
-
 }

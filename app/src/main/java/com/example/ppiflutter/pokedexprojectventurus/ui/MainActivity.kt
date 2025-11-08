@@ -12,8 +12,7 @@
     import androidx.navigation.fragment.NavHostFragment
     import com.example.ppiflutter.pokedexprojectventurus.R
     import com.example.ppiflutter.pokedexprojectventurus.databinding.ActivityMainBinding
-    import com.example.ppiflutter.pokedexprojectventurus.databinding.SplashScreenBinding
-    
+
     //Criar os xmls, com base nele criar a API, já testar o view model pra checar se por ele consigo mudar as informações do negócio, depois testar as infos da API,
     // Procurar uma forma viável de pegar todas as informações necessarias para a Lista de Pokémons e passar através dela pras views
         class MainActivity : AppCompatActivity() {

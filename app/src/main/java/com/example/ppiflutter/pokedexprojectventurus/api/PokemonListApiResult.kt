@@ -13,31 +13,3 @@ data class PokemonResult(
 ) //Informação que pego o numero do pokémon
 
 
-data class PokemonApiResult(
-    val name: String,
-    val types: List<PokemonTypeResult>,//Tentar trocar pra lista de strings
-    val abilities: List<PokemonAbilityResult>,
-    val height: Int,
-    val weight: Int
-) {
-    data class PokemonTypeResult(
-        val slot: Int,
-        val type: Type
-    )
-
-    data class Type(
-        val name:String,
-        val url: String
-    )
-
-    data class PokemonAbilityResult(
-        val slot: Int,
-        val name: Ability
-    )
-
-    data class Ability(
-        val name:String,
-        val url: String
-    )
-
-} //As informações pra pegar da API e passar pro profile

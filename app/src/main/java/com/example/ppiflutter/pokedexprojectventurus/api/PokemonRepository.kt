@@ -13,13 +13,21 @@ object PokemonRepository {
         service = retrofit.create(PokemonService::class.java) //cria e implementa os metodos do PokemonService
     }
 
-    fun listPokemons(limit: Int = 151): PokemonListApiResult? {
-        val call = service.listPokemons(limit)
-        return call.execute().body()
+
+    suspend fun listPokemons(limit: Int = 151): PokemonListApiResult? {
+        return try {
+            service.listPokemons(limit)
+        } catch (e: Exception) {
+            null
+        }
     }
 
-    fun getPokemon(name: String): PokemonApiResult? {
-        val call = service.getPokemon(name)
-        return call.execute().body()
+
+    suspend fun getPokemon(name: String): PokemonApiResult? {
+        return try{
+            service.getPokemon(name)
+        }catch (e: Exception){
+            null
+        }
     }
 }
