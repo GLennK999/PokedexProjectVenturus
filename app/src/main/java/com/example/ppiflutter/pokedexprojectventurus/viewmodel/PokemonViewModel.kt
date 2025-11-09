@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.ppiflutter.pokedexprojectventurus.api.PokemonRepository
 import com.example.ppiflutter.pokedexprojectventurus.model.PokemonModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -22,37 +24,34 @@ class PokemonViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 val pokemonQtd = pokemonRepository.listPokemons(1)?.count ?: 151
+                val allPokemonResults = pokemonRepository.listPokemons(pokemonQtd)?.results
 
-                val pokemonListApi =
-                    pokemonRepository.listPokemons(9)?.results //BuscaListadePokemon
+                if (allPokemonResults != null) {
+                    val batchSize = 20
+                    val batches = allPokemonResults.chunked(batchSize)
+                    val accumulatedList = mutableListOf<PokemonModel>()
 
-                if (pokemonListApi != null) {
-                    val pokemonModels =
-                        pokemonListApi.mapNotNull { pokemonResult -> //Chamadas em paralelo
-                            withContext(Dispatchers.IO) {//IO Thread especfica para BDs e API
-                                try {
-
-                                    val pokeNumber =
-                                        pokemonResult.url.split("/").last { it.isNotBlank() }
-                                            .toIntOrNull() ?: 0
-
-                                    val pokemonDetail =
-                                        pokemonRepository.getPokemon(pokeNumber)
-                                    pokemonDetail?.toPokemonModel(pokeNumber)
-                                } catch (e: Exception) {
-                                    Log.e(
-                                        "Erro ViewModel",
-                                        "Erro ao buscar ${pokemonResult.name}",
-                                        e
-                                    )
-                                    null
+                    for (batch in batches) {
+                        val batchModels = withContext(Dispatchers.IO) {
+                            batch.map { pokemonResult ->
+                                async {
+                                    val pokeNumber = pokemonResult.url.split("/").last { it.isNotBlank() }.toIntOrNull() ?: 0
+                                    try {
+                                        val pokemonDetail = pokemonRepository.getPokemon(pokeNumber)
+                                        pokemonDetail?.toPokemonModel(pokeNumber)
+                                    } catch (e: Exception) {
+                                        Log.e("Erro ViewModel", "Erro ao buscar ${pokemonResult.name}", e)
+                                        null
+                                    }
                                 }
-                            }
-                        }
-                    _pokemonLiveDataList.value = pokemonModels
+                            }.awaitAll()
+                        }.filterNotNull()
 
-                    Log.d("Erro ViewModel", "Carregados ${pokemonModels.size} Pokémon")
+                        accumulatedList.addAll(batchModels)
+                        _pokemonLiveDataList.value = accumulatedList.toList()
+                    }
 
+                    Log.d("Erro ViewModel", "Carregados ${accumulatedList.size} Pokémon")
                 }
             } catch (e: Exception) {
                 Log.e("Erro ViewModel", "Erro ao carregar Pokémon", e)
@@ -61,3 +60,8 @@ class PokemonViewModel: ViewModel() {
 
     }
 }
+
+
+
+
+
