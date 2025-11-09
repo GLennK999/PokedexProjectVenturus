@@ -10,6 +10,6 @@ data class PokemonListApiResult (
 data class PokemonResult(
     val name: String,
     val url: String
-) //Informação que pego o numero do pokémon
+) //Informação que pego o nome do pokémon
 
 

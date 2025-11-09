@@ -6,8 +6,8 @@
     android:gravity="center"
     android:background="@color/pokedex_blue">
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="350dp"
+        android:layout_height="250dp"
         android:src="@drawable/pokedex_icon_sp_screen"/>
 
 </LinearLayout>

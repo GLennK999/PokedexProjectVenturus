@@ -15,31 +15,33 @@ import com.example.ppiflutter.pokedexprojectventurus.ui.PokemonCardAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ppiflutter.pokedexprojectventurus.R
 import com.example.ppiflutter.pokedexprojectventurus.databinding.PokemonSearchBinding
 import com.example.ppiflutter.pokedexprojectventurus.model.PokemonModel
-import com.example.ppiflutter.pokedexprojectventurus.model.pokemonList
+import com.example.ppiflutter.pokedexprojectventurus.model.pokemonsDataList
 import com.example.ppiflutter.pokedexprojectventurus.viewmodel.PokemonViewModel
 
 class PokeSearchFragment: Fragment() {
     private var _binding: PokemonSearchBinding?= null
     private val binding get() = _binding!!
 
-    private lateinit var pokemonCardAdapter: PokemonCardAdapter
-    private val allPokemonList = pokemonList
-
-    private var currentTypeFilter: String = "Todos"
-    private var currentGenerationFilter: String = "Todas"
-
     val pokemonViewModel = PokemonViewModel()
 
+    private lateinit var pokemonCardAdapter: PokemonCardAdapter
+
+    private var allPokemonList = emptyList<PokemonModel>()
+
+    private var currentTypeFilter: String = "All"
+    private var currentGenerationFilter: String = "All"
 
 
-    private val types = arrayOf("Todos", "normal", "fire", "water", "electric", "grass", "ice",
+
+
+
+    private val types = arrayOf("All", "normal", "fire", "water", "electric", "grass", "ice",
         "fighting", "poison", "ground", "flying", "psychic", "bug", "rock", "ghost", "dragon",
         "dark", "steel", "fairy")
 
-    private val generations = arrayOf("Todas", "1", "2", "3", "4", "5", "6", "7", "8","9")
+    private val generations = arrayOf("All", "1", "2", "3", "4", "5", "6", "7", "8","9")
 
 
     override fun onCreateView(
@@ -60,24 +62,25 @@ class PokeSearchFragment: Fragment() {
     }
 
 
-    /*
-        pokemonCardAdapter = PokemonCardAdapter(
-            pokemonList, //filteredPokemonList,
-            {
-                navigationPokeProfile(it)
-            })
-
-         */
     private fun configureRecyclerView() {
-        //pokemonViewModel.getCurrentPokemonList()
         pokemonCardAdapter = PokemonCardAdapter(
-            allPokemonList,
+            emptyList(),
             {navigationPokeProfile(it)})
 
         binding.pokeCardsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = pokemonCardAdapter
             setHasFixedSize(true)
+        }
+
+        if (allPokemonList.isEmpty()){
+            pokemonViewModel.loadPokemons()
+        }
+        
+
+        pokemonViewModel.pokemonList.observe(viewLifecycleOwner){pokeModelList ->
+            pokemonCardAdapter.updatePokemonList(pokeModelList)
+            allPokemonList = pokeModelList
         }
     }
 
@@ -159,12 +162,12 @@ class PokeSearchFragment: Fragment() {
             val matchesName = userInput.isEmpty() || pokemon.name.lowercase().contains(userInput)
 
             // Filtro por tipo
-            val matchesType = currentTypeFilter == "Todos" || pokemon.types.any { type ->
+            val matchesType = currentTypeFilter == "All" || pokemon.types.any { type ->
                 type.lowercase() == currentTypeFilter.lowercase()
             }
 
             // Filtro por geração
-            val matchesGeneration = currentGenerationFilter == "Todas" || pokemon.generation == currentGenerationFilter.toInt()
+            val matchesGeneration = currentGenerationFilter == "All" || pokemon.generation == currentGenerationFilter.toInt()
 
             matchesName && matchesType && matchesGeneration
         }

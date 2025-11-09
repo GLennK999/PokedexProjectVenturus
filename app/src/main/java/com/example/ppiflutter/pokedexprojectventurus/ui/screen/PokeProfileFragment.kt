@@ -53,7 +53,7 @@ class PokeProfileFragment(): Fragment() {
             binding.pokeNameProfileText.text = pocketMonster.name
             binding.pokeNumberProfileText.text = StringBuilder("N#${pocketMonster.formattedDexNumber}").toString()
             binding.pokeHeightProfileText.text = StringBuilder("Height: ${pocketMonster.height} M").toString()
-            binding.pokeWeightProfileText.text = StringBuilder("Wight ${pocketMonster.weight} Kg").toString()
+            binding.pokeWeightProfileText.text = StringBuilder("Weight ${pocketMonster.weight} Kg").toString()
 
             for(i in pocketMonster.abilities){
                 abilitiesTxt.append(" $i ")

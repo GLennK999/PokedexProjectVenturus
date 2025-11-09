@@ -11,6 +11,6 @@ interface PokemonService {
     //Ex https://pokeapi.co/api/v2/pokemon?limit=1327
 
     @GET("pokemon/{number}")
-    suspend fun getPokemon(@Path("name")name: String): PokemonApiResult
-    //Ex https://pokeapi.co/api/v2/pokemon/bulbasaur
+    suspend fun getPokemon(@Path("number")number: Int): PokemonApiResult
+    //Ex https://pokeapi.co/api/v2/pokemon/1
 }

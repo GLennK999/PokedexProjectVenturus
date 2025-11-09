@@ -14,7 +14,7 @@ object PokemonRepository {
     }
 
 
-    suspend fun listPokemons(limit: Int = 151): PokemonListApiResult? {
+    suspend fun listPokemons(limit: Int): PokemonListApiResult? {
         return try {
             service.listPokemons(limit)
         } catch (e: Exception) {
@@ -23,9 +23,9 @@ object PokemonRepository {
     }
 
 
-    suspend fun getPokemon(name: String): PokemonApiResult? {
+    suspend fun getPokemon(number: Int): PokemonApiResult? {
         return try{
-            service.getPokemon(name)
+            service.getPokemon(number)
         }catch (e: Exception){
             null
         }

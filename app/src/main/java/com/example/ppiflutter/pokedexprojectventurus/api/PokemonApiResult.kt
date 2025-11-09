@@ -1,6 +1,7 @@
 package com.example.ppiflutter.pokedexprojectventurus.api
 
 import com.example.ppiflutter.pokedexprojectventurus.model.PokemonModel
+import kotlin.text.uppercase
 
 data class PokemonApiResult(
     val name: String,
@@ -30,18 +31,15 @@ data class PokemonApiResult(
         val url: String
     )
 
-    fun toPokemonModel(): PokemonModel{
-        val dexNumber = url?.let { urlString ->
-            urlString.split("/").filter { it.isNotBlank() }.last().toIntOrNull()
-        } ?: 0
+    fun toPokemonModel(pokeNumber: Int): PokemonModel{
 
         return PokemonModel(
-            dexNumber = dexNumber,
-            name = this.name,
+            dexNumber = pokeNumber,
+            name = this.name.replaceFirstChar { it.titlecase() },
             types = this.types.map { it.type.name },
             height = this.height / 10.0, // Converte para M
-            weight = this.weight / 10.0, // Converte para kg
-            abilities = this.abilities.map { it.ability.name }
+            weight = this.weight / 10.0, // Converte para Kg
+            abilities = this.abilities.map { it.ability.name.replaceFirstChar { letter-> letter.titlecase() } }
         )
     }
 } //As informações pra pegar da API e passar pro profile

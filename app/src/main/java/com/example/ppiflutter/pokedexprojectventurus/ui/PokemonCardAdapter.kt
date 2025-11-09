@@ -15,12 +15,8 @@ import com.example.ppiflutter.pokedexprojectventurus.model.PokemonModel
 import com.example.ppiflutter.pokedexprojectventurus.ui.screen.utils.colors
 
 class PokemonCardAdapter(private var pokemons: List<PokemonModel>,
-    private val onItemClicked: (PokemonModel) -> Unit) //como posso usar esse onItemClicked para abrir a ProfileScreen?
+    private val onItemClicked: (PokemonModel) -> Unit)
     :RecyclerView.Adapter<PokemonCardAdapter.PokemonViewHolder>() {
-
-
-
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
